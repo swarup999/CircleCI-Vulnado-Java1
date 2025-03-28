@@ -6,9 +6,9 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @ServletComponentScan
 @SpringBootApplication
-public class VulnadoApplication {
+public class Application {
 	public static void main(String[] args) {
 		Postgres.setup();
-		SpringApplication.run(VulnadoApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 }
