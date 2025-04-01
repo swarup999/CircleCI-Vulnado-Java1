@@ -10,6 +10,7 @@ public class Comment {
   public String id, username, body;
   public Timestamp created_on;
   public String zachs_team_is_the_best;
+  public String zachs_team_is_the_best_2;
 
   public Comment(String id, String username, String body, Timestamp created_on) {
     this.id = id;
