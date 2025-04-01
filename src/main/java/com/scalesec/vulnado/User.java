@@ -1,6 +1,7 @@
 package com.scalesec.vulnado;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import io.jsonwebtoken.Jwts;
@@ -8,6 +9,8 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
+
+import org.springframework.web.bind.annotation.RequestBody;
 
 public class User {
   public String id, username, hashedPassword;
@@ -37,28 +40,22 @@ public class User {
   }
 
   public static User fetch(String un) {
-    Statement stmt = null;
+    // Use PreparedStatement instead of Statement to sanitize the input and protect against SQL injection
+    LoginResponse login(@RequestBody LoginRequest input) {// /src/main/java/com/scalesec/vulnado/LoginController.java:19//SAST Node #0 (input): input ()
+      User user = User.fetch(input.username);//SAST Node #1: input ()//SAST Node #2: username ()
+    // method continues ...
+
+  public static User fetch(String un) {// /src/main/java/com/scalesec/vulnado/User.java:39//SAST Node #3: un ()
+    PreparedStatement stmt = null;
     User user = null;
     try {
       Connection cxn = Postgres.connection();
-      stmt = cxn.createStatement();
-      System.out.println("Opened database successfully");
+      stmt = cxn.prepareStatement("select * from users where username = ? limit 1");
+      stmt.setString(1, un); // Set the first parameter (? symbol in query) to the username
 
-      String query = "select * from users where username = '" + un + "' limit 1";
-      System.out.println(query);
-      ResultSet rs = stmt.executeQuery(query);
-      if (rs.next()) {
-        String user_id = rs.getString("user_id");
-        String username = rs.getString("username");
-        String password = rs.getString("password");
-        user = new User(user_id, username, password);
-      }
-      cxn.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.err.println(e.getClass().getName()+": "+e.getMessage());
-    } finally {
-      return user;
+      ResultSet rs = stmt.executeQuery();//SAST Node #6: query ()//SAST Node #7 (output): executeQuery ()
+  // method continues ...
+
     }
   }
 }
