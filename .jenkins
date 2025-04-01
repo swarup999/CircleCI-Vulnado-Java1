@@ -1,0 +1,101 @@
+pipeline {
+    agent any
+    
+    tools { 
+        maven '3.9.9'
+    }
+
+    environment {
+        DOCKER_IMAGE = "myregistry.io/myapp:${BUILD_NUMBER}"
+        REMOTE_USER = 'deploy'
+        REMOTE_HOST = 'your.server.com'
+        REMOTE_APP_NAME = 'myapp'
+        SSH_KEY_ID = 'my-ssh-key'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo '📥 Cloning source code...'
+                git url: 'https://github.com/CxTyler/vulnado-project.git', branch: 'master'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo '🔧 Building the application...'
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                echo '🧪 Running unit tests...'
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    sleep(time:12,unit:"SECONDS")
+                    //junit '**/target/surefire-reports/*.xml'
+                }
+            }
+        }
+
+        stage('Security Analysis (Checkmarx One)') {
+            steps {
+                echo '🔍 Running Checkmarx One scan...'
+                // Simulate or replace with real Checkmarx CLI command
+                //sh 'checkmarx-scan --project-name myapp --source .'
+                checkmarxASTScanner additionalOptions: '', baseAuthUrl: '', branchName: 'master', checkmarxInstallation: 'CxAST CLI Canary RSA 2025', credentialsId: '', projectName: 'VulnadoProject', serverUrl: '', tenantName: ''
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                echo '🐳 Building Docker image...'
+                //sh 'docker build -t $DOCKER_IMAGE .'
+                echo '📤 Pushing Docker image to registry...'
+                //sh 'docker push $DOCKER_IMAGE'
+            }
+        }
+
+        stage('Deploy to Dev Server') {
+            steps {
+                echo '🚀 Deploying to remote server via SSH...'
+                //sshagent (credentials: ["${SSH_KEY_ID}"]) {
+                    //sh """
+                        //ssh ${REMOTE_USER}@${REMOTE_HOST} '
+                            //docker pull $DOCKER_IMAGE &&
+                            //docker stop ${REMOTE_APP_NAME} || true &&
+                            //docker rm ${REMOTE_APP_NAME} || true &&
+                            //docker run -d --name ${REMOTE_APP_NAME} -p 8080:8080 $DOCKER_IMAGE
+                        //'
+                    //"""
+                //}
+            }
+        }
+
+        stage('Integration Tests') {
+            steps {
+                echo '🔗 Running integration tests...'
+                //sh './scripts/integration-tests.sh'
+            }
+        }
+
+        stage('Post-deploy SCA Check') {
+            steps {
+                echo '🧬 Running Software Composition Analysis (SCA)...'
+                //sh 'checkmarx-sca --source . --report-format html --output sca-report.html'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Deployment pipeline completed successfully!'
+        }
+        failure {
+            echo '❌ Pipeline failed. Check logs and retry.'
+        }
+    }
+}
