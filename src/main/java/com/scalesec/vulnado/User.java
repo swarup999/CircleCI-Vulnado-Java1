@@ -8,7 +8,7 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
-//Prueba de commit
+
 public class User {
   public String id, username, hashedPassword;
 
