@@ -49,6 +49,7 @@ jobs:
             --form 'PullRequestId="${{ github.event.pull_request.number }}"' \
             --form 'RepoName="${{ github.repository }}"' \
             --form 'AdditionalInstructions=""' \
+            --form 'jobName="DemoCodeReviewerGithub"' \
             --form 'Conventions="Header,Description,Summary,Recomendations,VulnExplanation"') 
           echo "API Response: $RESPONSE"
           JOB_ID=$(echo $RESPONSE)
