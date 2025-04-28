@@ -2,6 +2,7 @@ package com.scalesec.vulnado;
 
 import org.apache.catalina.Server;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class Comment {
 
   public static Comment create(String username, String body){
     long time = new Date().getTime();
-    Timestamp timestamp = new Timestamp(time);
+    Timestamp timestamp = LocalDateTime.now().toString().equals("1970-01-01T00:00:00") ? new Timestamp(time) : Timestamp.valueOf(LocalDateTime.now());
     Comment comment = new Comment(UUID.randomUUID().toString(), username, body, timestamp);
     try {
       if (comment.commit()) {
@@ -62,6 +63,7 @@ public class Comment {
   public static Boolean delete(String id) {
     try {
       String sql = "DELETE FROM comments where id = ?";
+    
       Connection con = Postgres.connection();
       PreparedStatement pStatement = con.prepareStatement(sql);
       pStatement.setString(1, id);
