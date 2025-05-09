@@ -27,3 +27,4 @@
 terraform.tfstate
 terraform.tfstate.backup
 terraform.tfstate.lock
+src/main/java/com/scalesec/.DS_Store
