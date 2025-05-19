@@ -48,5 +48,23 @@ public class User {
       stmt.setString(1, un); // Set the first parameter (? symbol in query) to the username
 
       ResultSet rs = stmt.executeQuery();//SAST Node #6: query ()//SAST Node #7 (output): executeQuery ()
+      if (rs.next()) {
+        user = new User(
+          rs.getString("id"),
+          rs.getString("username"),
+          rs.getString("hashed_password")
+        );
+      }
+      rs.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (stmt != null) stmt.close();
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
+    }
+    return user;
   }
 }
