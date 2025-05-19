@@ -39,12 +39,6 @@ public class User {
     }
   }
 
-  public static User fetch(String un) {
-    // Use PreparedStatement instead of Statement to sanitize the input and protect against SQL injection
-    LoginResponse login(@RequestBody LoginRequest input) {// /src/main/java/com/scalesec/vulnado/LoginController.java:19//SAST Node #0 (input): input ()
-      User user = User.fetch(input.username);//SAST Node #1: input ()//SAST Node #2: username ()
-    // method continues ...
-
   public static User fetch(String un) {// /src/main/java/com/scalesec/vulnado/User.java:39//SAST Node #3: un ()
     PreparedStatement stmt = null;
     User user = null;
