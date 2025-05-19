@@ -48,8 +48,5 @@ public class User {
       stmt.setString(1, un); // Set the first parameter (? symbol in query) to the username
 
       ResultSet rs = stmt.executeQuery();//SAST Node #6: query ()//SAST Node #7 (output): executeQuery ()
-  // method continues ...
-
-    }
   }
 }
