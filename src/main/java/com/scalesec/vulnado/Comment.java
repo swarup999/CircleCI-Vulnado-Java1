@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 public class Comment {
   public String id, username, body;
   public Timestamp created_on;
@@ -63,9 +69,8 @@ public class Comment {
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println(e.getClass().getName()+": "+e.getMessage());
-    } finally {
-      return comments;
     }
+    return comments;
   }
 
   public static Boolean delete(String id) {
@@ -77,7 +82,6 @@ public class Comment {
       return 1 == pStatement.executeUpdate();
     } catch(Exception e) {
       e.printStackTrace();
-    } finally {
       return false;
     }
   }
