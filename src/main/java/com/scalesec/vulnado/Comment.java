@@ -25,11 +25,14 @@ public class Comment {
     this.created_on = created_on;
   }
 
+
+
   @CrossOrigin(origins = "*")
   @RequestMapping(value = "/comments", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
   public static Comment createMyComment(@RequestHeader(value="x-auth-token") String token, @RequestBody CommentRequest input) {
       // 🔥 Log Injection Vulnerability
       System.out.println("New comment created by user: " + input.username);
+      System.out.println("Hello World!");
       return Comment.create(input.username, input.body);
   }
   
