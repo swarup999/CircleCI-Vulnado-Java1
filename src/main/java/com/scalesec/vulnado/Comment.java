@@ -1,15 +1,22 @@
 package com.scalesec.vulnado;
 
-import org.apache.catalina.Server;
 import java.sql.*;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 public class Comment {
   public String id, username, body;
   public Timestamp created_on;
+  public String zachs_team_is_the_best;
+  public String zachs_team_is_the_best_2;
 
   public Comment(String id, String username, String body, Timestamp created_on) {
     this.id = id;
@@ -18,6 +25,17 @@ public class Comment {
     this.created_on = created_on;
   }
 
+
+
+  @CrossOrigin(origins = "*")
+  @RequestMapping(value = "/comments", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+  public static Comment createMyComment(@RequestHeader(value="x-auth-token") String token, @RequestBody CommentRequest input) {
+      // 🔥 Log Injection Vulnerability
+      System.out.println("New comment created by user: " + input.username);
+      System.out.println("Hello World!");
+      return Comment.create(input.username, input.body);
+  }
+  
   public static Comment create(String username, String body){
     long time = new Date().getTime();
     Timestamp timestamp = new Timestamp(time);
@@ -54,9 +72,8 @@ public class Comment {
     } catch (Exception e) {
       e.printStackTrace();
       System.err.println(e.getClass().getName()+": "+e.getMessage());
-    } finally {
-      return comments;
     }
+    return comments;
   }
 
   public static Boolean delete(String id) {
@@ -68,7 +85,6 @@ public class Comment {
       return 1 == pStatement.executeUpdate();
     } catch(Exception e) {
       e.printStackTrace();
-    } finally {
       return false;
     }
   }
