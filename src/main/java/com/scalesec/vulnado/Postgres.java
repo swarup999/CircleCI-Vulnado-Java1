@@ -42,15 +42,14 @@ public class Postgres {
             stmt.executeUpdate("DELETE FROM users");
             stmt.executeUpdate("DELETE FROM comments");
 
-            // Insert seed data
             insertUser("admin", "!!SuperSecretAdmin!!");
-            insertUser("alice", "AlicePassword!");
-            insertUser("bob", "BobPassword!");
-            insertUser("eve", "$EVELknev^l");
-            insertUser("rick", "!GetSchwifty!");
+            insertUser("Dilnaz", "Dilnaz2025!");
+            insertUser("Erkanat", "Erkanat2025!");
+            insertUser("ZhadyraZhumabekovna", "Zhadyra2025!");
+            insertUser("rick", "HarryPotter1991!");
 
-            insertComment("rick", "cool dog m8");
-            insertComment("alice", "OMG so cute!");
+            insertComment("rick", "cool guys!!!");
+            insertComment("ZhadyraZhumabekovna", "Well done!!!");
             c.close();
         } catch (Exception e) {
             System.out.println(e);

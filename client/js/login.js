@@ -12,7 +12,7 @@ $(document).ready(function(){
       contentType: "application/json"
     })
     .fail(function(data){
-      alert("Whoops, try again");
+      alert("Whooops, try again");
     })
     .done(function(data){
       localStorage.jwt = data.token;

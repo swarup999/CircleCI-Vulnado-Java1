@@ -9,7 +9,7 @@ $(document).ready(function(){
 
   // Helper Functions
   function setupDeleteCommentHandler() {
-    // NOTE: This needs to come first since comments aren't loaded yet.
+    
     $('.delete-comment').click(function(){
       var parent = this.closest(".row");
       var id = $(parent).data("comment_id");
