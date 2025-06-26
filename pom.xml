@@ -65,6 +65,17 @@
 		    <version>0.10.5</version>
 		    <scope>runtime</scope>
 		</dependency>
+		<!-- Explicitly override logback version to fix CVE-2023-6378 -->
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-core</artifactId>
+		    <version>1.2.13</version>
+		</dependency>
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		    <version>1.2.13</version>
+		</dependency>
 	</dependencies>
 
 	<build>
