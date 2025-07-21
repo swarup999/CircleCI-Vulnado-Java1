@@ -1,4 +1,5 @@
 version: 2.1
+
 jobs:
   sast-sca-and-deploy:
     docker:
